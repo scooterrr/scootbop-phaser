@@ -13,6 +13,7 @@ export class SceneMain extends Phaser.Scene
     }
     preload()
     {
+        this.load.glsl('testShader', 'src/assets/shaders/Test.glsl');
         this.load.image("background", "src/assets/images/background.jpg");
         this.load.image("grain", "src/assets/images/grain.png");
         this.load.spritesheet("scoot", "src/assets/images/scoot.png", 

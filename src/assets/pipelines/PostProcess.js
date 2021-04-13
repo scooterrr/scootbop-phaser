@@ -5,6 +5,8 @@ precision mediump float;
 
 uniform float     uTime;
 uniform sampler2D uMainSampler;
+uniform sampler2D iChannel0;
+uniform sampler2D iChannel1;
 varying vec2 outTexCoord;
 uniform vec2 uResolution;
 uniform float amount;
@@ -340,6 +342,8 @@ void main( void )
     // texColor.rgb = blendOverlay(texColor.rgb, vec3(g), 0.5);
     // texColor.a = 1.0;
 
+    // texColor = texture2D(iChannel1, uv);
+
     // Output to screen
     gl_FragColor = vec4( texColor );
 }
@@ -356,6 +360,8 @@ export default class PostProcess extends Phaser.Renderer.WebGL.Pipelines.PostFXP
             uniforms: [
                 'uProjectionMatrix',
                 'uMainSampler',
+                'iChannel0',
+                'iChannel1',
                 'uTime',
                 'uResolution',
                 'amount',
