@@ -1,12 +1,10 @@
 const fragShader = `
 #define SHADER_NAME BEND_WAVES_FS
 
-precision mediump float;
+precision highp float;
 
 uniform float     uTime;
 uniform sampler2D uMainSampler;
-uniform sampler2D iChannel0;
-uniform sampler2D iChannel1;
 varying vec2 outTexCoord;
 uniform vec2 uResolution;
 uniform float amount;
@@ -335,12 +333,12 @@ void main( void )
     texColor.rgb = pow(texColor.rgb, vec3(1.0/gamma));
     texColor.rgb *= clamp(map(fadeAmount, 0.0, 0.35, 0.0, 1.0), 0.0, 1.0);
 
-    // // Film grain
-    // float grainSize = 5.0;
-    // vec2 grainUV = fract(uv += uTime * 0.1 + 1.0);
-    // float g = grain(uv, uResolution / grainSize, uTime * 10.0, 2.5);
-    // texColor.rgb = blendOverlay(texColor.rgb, vec3(g), 0.5);
-    // texColor.a = 1.0;
+    // Film grain
+    float grainSize = 5.0;
+    vec2 grainUV = fract(uv += uTime * 0.1 + 1.0);
+    float g = grain(uv, uResolution / grainSize, uTime * 10.0, 2.5);
+    texColor.rgb = blendOverlay(texColor.rgb, vec3(g), 0.5);
+    texColor.a = 1.0;
 
     // texColor = texture2D(iChannel1, uv);
 
@@ -360,8 +358,6 @@ export default class PostProcess extends Phaser.Renderer.WebGL.Pipelines.PostFXP
             uniforms: [
                 'uProjectionMatrix',
                 'uMainSampler',
-                'iChannel0',
-                'iChannel1',
                 'uTime',
                 'uResolution',
                 'amount',
