@@ -37,12 +37,16 @@ export class SceneMain extends Phaser.Scene
 
         // Camera
         this.cam = this.cameras.main;
-        this.cam.zoom = 1.2;
-        this.barrelPower = 0.53;
+        this.cam.zoom = 2.0;
+        this.cam.zoomTo(1.0, 5000, 'Power2');
+        this.cam.scrollY = 200;
+        this.cam.pan(960, 960, 3000, 'Power2');
+
+        this.barrelPower = 0.68;
         this.bloomPower = 1.0;
         this.highFreqShake = 0.049;
         this.medFreqShake = 0.038;
-        this.lowFreqShake = 0.06;
+        this.lowFreqShake = 0.096;
         this.filmFadeAmount = 0.0;
 
         
@@ -64,7 +68,6 @@ export class SceneMain extends Phaser.Scene
         f1.add(this, 'highFreqShake', 0.0, 0.2).step(0.001).listen();
         f1.add(this, 'medFreqShake', 0.0, 0.2).step(0.001).listen();
         f1.add(this, 'lowFreqShake', 0.0, 0.2).step(0.001).listen();
-        f1.open();
 
         // Animations
         this.anims.create({
@@ -104,6 +107,14 @@ export class SceneMain extends Phaser.Scene
             to: 1,
             duration: 5000
         });
+
+        // Zoom out
+        this.zoomOutTween = this.tweens.add({
+            targets: this.cam,
+            zoom: 2.0,
+            duration: 3000
+        })
+        this.zoomOutTween.play();
 
         this.postPipeline = this.cam.getPostPipeline(PostProcess);
 

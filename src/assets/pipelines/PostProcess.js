@@ -1,5 +1,5 @@
 const fragShader = `
-#define SHADER_NAME BEND_WAVES_FS
+#define SHADER_NAME POST_PROCESS
 
 precision highp float;
 
