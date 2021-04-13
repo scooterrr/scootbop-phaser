@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 import Align from "../util/Align";
 import * as dat from 'dat.gui';
+import * as Stats from 'stats.js';
 import {AlignGrid} from "../util/alignGrid";
 import { UIBlock } from "../util/UIBlock";
 import PostProcess from '../assets/pipelines/PostProcess.js';
@@ -51,6 +52,7 @@ export class SceneMain extends Phaser.Scene
 
         
         // Debug UI
+        this.stats = new Stats();
         var gui = new dat.GUI();
 
         var help = {
@@ -58,16 +60,27 @@ export class SceneMain extends Phaser.Scene
             line2: 'Q & E to zoom'
         }
 
-        var f1 = gui.addFolder('Camera');
-        f1.add(this.cam, 'scrollX').listen();
-        f1.add(this.cam, 'scrollY').listen();
-        f1.add(this.cam, 'zoom', 0.1, 2).step(0.1).listen();
-        f1.add(this, 'filmFadeAmount', 0.0, 1.0).step(0.01).listen(); 
-        f1.add(this, 'barrelPower', -2.0, 2.0).step(0.01).listen();
-        f1.add(this, 'bloomPower', 0.0, 2.0).step(0.01).listen();
-        f1.add(this, 'highFreqShake', 0.0, 0.2).step(0.001).listen();
-        f1.add(this, 'medFreqShake', 0.0, 0.2).step(0.001).listen();
-        f1.add(this, 'lowFreqShake', 0.0, 0.2).step(0.001).listen();
+        var cameraFolder = gui.addFolder('Camera');
+        cameraFolder.add(this.cam, 'scrollX').listen();
+        cameraFolder.add(this.cam, 'scrollY').listen();
+        cameraFolder.add(this.cam, 'zoom', 0.1, 2).step(0.1).listen();
+        cameraFolder.add(this, 'filmFadeAmount', 0.0, 1.0).step(0.01).listen(); 
+        cameraFolder.add(this, 'barrelPower', -2.0, 2.0).step(0.01).listen();
+        cameraFolder.add(this, 'bloomPower', 0.0, 2.0).step(0.01).listen();
+        cameraFolder.add(this, 'highFreqShake', 0.0, 0.2).step(0.001).listen();
+        cameraFolder.add(this, 'medFreqShake', 0.0, 0.2).step(0.001).listen();
+        cameraFolder.add(this, 'lowFreqShake', 0.0, 0.2).step(0.001).listen();
+
+        var perfFolder = gui.addFolder('Performance');
+        var perfLi = document.createElement('li');
+        this.stats.domElement.style.position = "static";
+        perfLi.appendChild(this.stats.domElement);
+        perfLi.classList.add('gui-stats');
+        perfFolder.__ul.appendChild(perfLi);
+        perfFolder.open();
+
+        // stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+        // document.body.appendChild( stats.dom );
 
         // Animations
         this.anims.create({
@@ -122,6 +135,9 @@ export class SceneMain extends Phaser.Scene
 
     update()
     {
+        // Start stat tracking
+        this.stats.begin();
+
         this.gameTime += 0.01;
 
         // Film fade
@@ -144,6 +160,9 @@ export class SceneMain extends Phaser.Scene
         this.cameras.main.scrollY += Math.sin(this.gameTime * 0.4) * this.lowFreqShake;
         this.cameras.main.scrollY += Math.sin(this.gameTime * 8.0) * this.medFreqShake;
         this.cameras.main.scrollY += Math.sin(this.gameTime * 64.0) * this.highFreqShake;
+
+        // End stat tracking
+        this.stats.end();
     }
 }
 export default SceneMain
