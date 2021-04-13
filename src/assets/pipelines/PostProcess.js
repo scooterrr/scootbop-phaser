@@ -333,13 +333,12 @@ void main( void )
     texColor.rgb = pow(texColor.rgb, vec3(1.0/gamma));
     texColor.rgb *= clamp(map(fadeAmount, 0.0, 0.35, 0.0, 1.0), 0.0, 1.0);
 
-    // Film grain
-    float grainSize = 5.0;
-    vec2 grainUV = fract(uv += uTime * 0.1 + 1.0);
-    float g = grain(uv, uResolution / grainSize, uTime * 10.0, 2.5);
-
-    texColor.rgb = blendOverlay(texColor.rgb, vec3(g), 0.5);
-    texColor.a = 1.0;
+    // // Film grain
+    // float grainSize = 5.0;
+    // vec2 grainUV = fract(uv += uTime * 0.1 + 1.0);
+    // float g = grain(uv, uResolution / grainSize, uTime * 10.0, 2.5);
+    // texColor.rgb = blendOverlay(texColor.rgb, vec3(g), 0.5);
+    // texColor.a = 1.0;
 
     // Output to screen
     gl_FragColor = vec4( texColor );

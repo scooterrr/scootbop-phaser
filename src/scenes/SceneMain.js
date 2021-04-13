@@ -106,6 +106,7 @@ export class SceneMain extends Phaser.Scene
         });
 
         this.postPipeline = this.cam.getPostPipeline(PostProcess);
+
     }
 
     update()
@@ -113,7 +114,11 @@ export class SceneMain extends Phaser.Scene
         this.gameTime += 0.01;
 
         // Film fade
-        this.filmFadeAmount = this.filmFadeTween.progress;
+        if (this.filmFadeTween.progress < 1.0)
+        {
+            this.filmFadeAmount = this.filmFadeTween.progress;
+        }
+
 
         // Camera shader params
         this.postPipeline.set1f('barrelPower', this.barrelPower);
