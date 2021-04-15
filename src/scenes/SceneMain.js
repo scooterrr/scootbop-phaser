@@ -13,9 +13,14 @@ export class SceneMain extends Phaser.Scene
         super("SceneMain");
     }
     preload()
-    {
+    {   
+        // Plugins
+
+        // Images
         this.load.image("background", "src/assets/images/background.jpg");
         this.load.image("grain", "src/assets/images/grain.png");
+
+        // Spritesheets
         this.load.spritesheet("scoot", "src/assets/images/scoot.png", 
         { 
             frameWidth: 600, 
@@ -27,6 +32,17 @@ export class SceneMain extends Phaser.Scene
             frameHeight: 310
         });
 
+        // Audio
+        this.load.audio("openArp", [
+            "src/assets/audio/open_arp.ogg",
+            "src/assets/audio/open_arp.mp3"
+            ]);
+
+        this.load.audio('theme', [
+            'src/assets/audio/oedipus_wizball_highscore.ogg',
+            'src/assets/audio/oedipus_wizball_highscore.mp3'
+            ]);
+
     }
 
     create()
@@ -34,6 +50,12 @@ export class SceneMain extends Phaser.Scene
         // Game Time variable
         this.gameTime = 0.0;
 
+        // Play open arp sound
+        var openArp = this.sound.add('openArp');
+        openArp.play();
+
+        // Youtube player
+        
         // Resolution 
 
         // Camera

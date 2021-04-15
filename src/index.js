@@ -4,8 +4,8 @@ import {SceneMain} from "./scenes/SceneMain"
 import PostProcess from './assets/pipelines/PostProcess.js';
 
 const config = {
-    type: Phaser.WEBGL,
-    parent: 'phaser-example',
+    type: Phaser.AUTO,
+    parent: 'phaser-examples',
     width: 1920,
     height: 1920,
     scale: {
